@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
  */
 
 const homePage = async (req, res) => {
+  const messages = await req.flash("success");
   const locales = {
     title: "User Management System",
     description:
@@ -15,6 +16,7 @@ const homePage = async (req, res) => {
   };
   res.render("index", {
     locales,
+    messages: messages[0],
   });
 };
 
@@ -49,9 +51,9 @@ const postCustomer = async (req, res) => {
     email,
     details,
   });
-  console.log(customer);
   try {
     await customer.save();
+    await req.flash("success", "Customer Added Successfully");
     res.redirect("/");
   } catch (error) {
     console.log(error);

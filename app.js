@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
-const { flash } = require("express-flash-message");
+const flash = require("connect-flash");
 const session = require("express-session");
 const connectDB = require("./server/config/db.js");
 
@@ -20,9 +20,9 @@ app.use(express.static("public"));
 // Express Session
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: "secret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
@@ -30,7 +30,7 @@ app.use(
 );
 
 // Express Flash Messages
-app.use(flash({ sessionKeyName: "flashMessage" }));
+app.use(flash());
 
 // Templating Engine
 app.use(expressLayout);
