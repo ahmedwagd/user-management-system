@@ -2,9 +2,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
+const connectDB = require("./server/config/db.js");
 
 const app = express();
 const PORT = 3030 || process.env.PORT;
+connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -18,17 +20,8 @@ app.use(expressLayout);
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
-// Home
-// app.get("/", (req, res) => {
-//   const locales = {
-//     title: "User Management System",
-//     description:
-//       "NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
-//   };
-//   res.render("index", {
-//     locales,
-//   });
-// });
+// Routes
+app.use("/", require("./server/routes/customer.js"));
 
 // Handle 404
 app.use((req, res, next) => {
