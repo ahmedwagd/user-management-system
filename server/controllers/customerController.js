@@ -41,10 +41,6 @@ const addCustomer = async (req, res) => {
  */
 
 const postCustomer = async (req, res) => {
-  const locales = {
-    title: "New Customer Added!",
-    description: "New Customer Added to the System",
-  };
   const { firstName, lastName, telephone, email, details } = req.body;
   const customer = new Customer({
     firstName,
