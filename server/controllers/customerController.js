@@ -14,17 +14,47 @@ const homePage = async (req, res) => {
     description:
       "NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
   };
+
+  let perPage = 5;
+  let page = req.query.page || 1;
+
   try {
-    const customers = await Customer.find({}).limit(22);
+    const customers = await Customer.find({})
+      .sort({ updatedAt: -1 })
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
+    const count = await Customer.countDocuments({});
     res.render("index", {
       locales,
       messages,
       customers,
+      current: page,
+      pages: Math.ceil(count / perPage),
     });
   } catch (error) {
     console.log(error);
   }
 };
+
+// const homePage = async (req, res) => {
+//   const messages = await req.flash("success");
+//   const locales = {
+//     title: "User Management System",
+//     description:
+//       "NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
+//   };
+//   try {
+//     const customers = await Customer.find({}).limit(22);
+//     res.render("index", {
+//       locales,
+//       messages,
+//       customers,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 /**
  *
