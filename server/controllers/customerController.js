@@ -14,10 +14,16 @@ const homePage = async (req, res) => {
     description:
       "NodeJs is a JavaScript runtime built on Chrome's V8 JavaScript engine.",
   };
-  res.render("index", {
-    locales,
-    messages: messages[0],
-  });
+  try {
+    const customers = await Customer.find({}).limit(22);
+    res.render("index", {
+      locales,
+      messages,
+      customers,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 /**
